@@ -85,7 +85,18 @@ Instead of waiting 5+ hours for 50+ unused components, select targeted packages:
 | **Monolithic** | **`full`** | `full` | Complete ROCm stack (all 50+ libraries) | Monolithic distribution release build | ~7 hrs (~3.5 hrs fast*) |
 
 > [!TIP]
-> **⚡ Fast Build Tip (`-DBUILD_TESTING=OFF`)**: Default builds include comprehensive unit tests & benchmarks (e.g. 338+ individual `rocPRIM` test binaries). To build **pure runtime libraries in ~35 minutes**, pass `-C "-DBUILD_TESTING=OFF"` or use `--with-ccache`!
+> **⚡ Fast Build Tip (~35 min vs ~2.5 hrs)**  
+> Default builds compile comprehensive unit tests & benchmarks (e.g. 338+ individual `rocPRIM` test binaries). To build **pure runtime libraries in ~35 minutes**, skip test compilation with `-C "-DBUILD_TESTING=OFF"` or enable compiler caching with `--with-ccache`:
+> ```bash
+> # Option A: Fast build using therock-env (skipping test binaries)
+> ./therock-env build --preset llm --python 3.14 -C "-DBUILD_TESTING=OFF"
+> 
+> # Option B: Fast build with ccache compiler acceleration
+> ./therock-env build --preset llm --python 3.14 --with-ccache -C "-DBUILD_TESTING=OFF"
+> 
+> # Option C: Zero-Install one-liner with ccache enabled
+> curl -fsSL https://raw.githubusercontent.com/analogbox/TheRock/main/bootstrap.sh | bash -s -- --preset llm --python 3.14 --with-ccache
+> ```
 
 ---
 
