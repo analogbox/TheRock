@@ -74,15 +74,18 @@ rocminfo   # Shows AMD Radeon 8060S / gfx1151
 
 Instead of waiting 5+ hours for 50+ unused components, select targeted packages:
 
-| Workload Tier | Preset | Aliases | Included Components | Recommended For | Build Time |
+| Workload Tier | Preset | Aliases | Included Components | Recommended For | Build Time (Default / Fast*) |
 | :--- | :--- | :--- | :--- | :--- | :---: |
-| **Tier 1 (AI / LLM)** | **`llm`** | `lora`, `finetuning` | HIP + `rocBLAS` + `hipBLASLt` + `rocPRIM` + `hipTensor` + `AMD Mesa (RADV Vulkan)` | **vLLM, llama.cpp (HIP & Vulkan), Ollama, MLC-LLM, LoRA/QLoRA Fine-Tuning** | **~30 min** |
-| **Tier 1 (AI / LLM)** | **`ai-full`** | `ai`, `training`, `pytorch` | `llm` stack + `MIOpen` (CK) + `RCCL` + `hipDNN` | Full PyTorch training from scratch, CNN/Vision, Stable Diffusion | ~4 hours |
-| **Tier 2 (Media)** | **`vulkan-media`** | `vulkan`, `media` | AMD Mesa (RADV Vulkan) + `rocDecode` + `rocJPEG` | Vulkan graphics, 4K/8K video decode, llama.cpp (Vulkan) | **~25 min** |
-| **Tier 3 (Engine)** | **`core-hip`** | `hip`, `minimal` | AMD Clang 23 + HIP Runtime + AMDSMI + `rocminfo` | Minimal C++/HIP kernel development & testing | **~20 min** |
-| **Tier 3 (Math)** | **`math-hpc`** | `math`, `scientific` | `rocBLAS` + `rocFFT` + `rocSOLVER` + `rocSPARSE` + `rocALUTION` | FFT signal processing, matrix solvers, simulations | ~1.5 hours |
-| **Tools** | **`profiler`** | `profiler` | `rocprofiler-sdk`, `rocprofiler-systems`, `rocgdb` | GPU performance tracing & interactive debugging | ~40 min |
-| **Monolithic** | **`full`** | `full` | Complete ROCm stack (all 50+ libraries) | Monolithic distribution release build | ~5 hours |
+| **Tier 1 (AI / LLM)** | **`llm`** | `lora`, `finetuning` | HIP + `rocBLAS` + `hipBLASLt` + `rocPRIM` + `hipTensor` + `AMD Mesa (RADV Vulkan)` | **vLLM, llama.cpp (HIP & Vulkan), Ollama, MLC-LLM, LoRA/QLoRA Fine-Tuning** | **~2.5 hrs** (~35 min fast*) |
+| **Tier 1 (AI / LLM)** | **`ai-full`** | `ai`, `training`, `pytorch` | `llm` stack + `MIOpen` (CK) + `RCCL` + `hipDNN` | Full PyTorch training from scratch, CNN/Vision, Stable Diffusion | ~4.5 hrs (~1.5 hrs fast*) |
+| **Tier 2 (Media)** | **`vulkan-media`** | `vulkan`, `media` | AMD Mesa (RADV Vulkan) + `rocDecode` + `rocJPEG` | Vulkan graphics, 4K/8K video decode, llama.cpp (Vulkan) | **~30 min** (~15 min fast*) |
+| **Tier 3 (Engine)** | **`core-hip`** | `hip`, `minimal` | AMD Clang 23 + HIP Runtime + AMDSMI + `rocminfo` | Minimal C++/HIP kernel development & testing | **~25 min** (~15 min fast*) |
+| **Tier 3 (Math)** | **`math-hpc`** | `math`, `scientific` | `rocBLAS` + `rocFFT` + `rocSOLVER` + `rocSPARSE` + `rocALUTION` | FFT signal processing, matrix solvers, simulations | ~2 hrs (~45 min fast*) |
+| **Tools** | **`profiler`** | `profiler` | `rocprofiler-sdk`, `rocprofiler-systems`, `rocgdb` | GPU performance tracing & interactive debugging | ~45 min (~20 min fast*) |
+| **Monolithic** | **`full`** | `full` | Complete ROCm stack (all 50+ libraries) | Monolithic distribution release build | ~7 hrs (~3.5 hrs fast*) |
+
+> [!TIP]
+> **⚡ Fast Build Tip (`-DBUILD_TESTING=OFF`)**: Default builds include comprehensive unit tests & benchmarks (e.g. 338+ individual `rocPRIM` test binaries). To build **pure runtime libraries in ~35 minutes**, pass `-C "-DBUILD_TESTING=OFF"` or use `--with-ccache`!
 
 ---
 
