@@ -449,6 +449,18 @@ def apply_runtime_patches():
             )
             comgr_test_cmake.write_text(patched)
 
+    # 7. amd-mesa Meson / GNU ld 2.46 version script deduplication fix
+    mesa_cmake = REPO_ROOT / "third-party/sysdeps/linux/amd-mesa/CMakeLists.txt"
+    if mesa_cmake.is_file():
+        content = mesa_cmake.read_text()
+        if " -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/version.lds" in content:
+            log_info("Applying version script deduplication patch to amd-mesa sysdeps...")
+            patched = content.replace(
+                " -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/version.lds",
+                "",
+            )
+            mesa_cmake.write_text(patched)
+
 
 def ensure_ccache() -> bool:
     """Ensure ccache is available, attempting auto-installation if missing."""

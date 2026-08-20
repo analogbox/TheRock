@@ -112,7 +112,7 @@ add_custom_target(
     # Step 3: Reconfigure meson to build from patched source
     # This ensures the build system uses the modified source files
     "${CMAKE_COMMAND}" -E env
-      "LDFLAGS=-Wl,-rpath='$$ORIGIN' -Wl,--version-script=${CMAKE_CURRENT_SOURCE_DIR}/version.lds"
+      "LDFLAGS=-Wl,-rpath='$$ORIGIN'"
       "CC=${_meson_cc}"
       "CXX=${_meson_cxx}"
       --
